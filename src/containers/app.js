@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // import * as mainActions from '../actions/mainAction';
+import Button from '../components/button/index';
 
 class App extends Component {
     render(){
@@ -9,7 +10,12 @@ class App extends Component {
         // const {    } = this.props.mainActions;
         return(
             <div>
-                Hello
+                <Button>
+                    Add money move
+                </Button>
+                <Button>
+                    Add category
+                </Button>
             </div>
 
         )

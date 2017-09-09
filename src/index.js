@@ -14,7 +14,7 @@ const context = {
 render(
     <ContextProvider className="container" context={context}>
         <Provider store={store}>
-            <App />
+            <App/>
         </Provider>
     </ContextProvider>,
     document.getElementById('root')

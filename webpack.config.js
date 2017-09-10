@@ -1,14 +1,13 @@
 let path = require('path');
 let webpack = require('webpack');
 let NpmInstallPlugin = require('npm-install-webpack-plugin');
-let autoprefixer = require('autoprefixer');
-let precss = require('precss');
 
 module.exports = {
     devtool: 'cheap-module-eval-source-map',
     entry: [
         'webpack-hot-middleware/client',
         'babel-polyfill',
+        'react-hot-loader/patch',
         './src/index'
     ],
     output: {
@@ -17,40 +16,56 @@ module.exports = {
         publicPath: '/dist/'
     },
     plugins: [
-        new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin (),
         new NpmInstallPlugin()
     ],
     module: {
-        loaders: [
+        rules: [
             {
-                loaders: ['react-hot', 'babel-loader'],
-                include: [
-                    path.resolve(__dirname, "src"),
-                ],
                 test: /\.js$/,
-                plugins: ['transform-runtime'],
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                }
             },
             {
                 test: /\.scss$/,
-                loaders: [
+                use: [
                     'isomorphic-style-loader',
-                    'css-loader?modules&localIdentName=[name]_[local]_[hash:base64:3]',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: true,
+                            importLoaders: 1,
+                            localIdentName: '[name]_[local]_[hash:base64:3]'
+                        }
+                    },
                     'postcss-loader'
                 ]
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2)$/,
-                loader: 'file?name=public/fonts/[name].[ext]'
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[path][name].[ext]'
+                        }
+                    }
+                ]
             },
             {
                 test: /\.(png|jpe?g|gif)$/,
-                loader: "file-loader?name=img/img-[hash:6].[ext]"
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[path][name].[ext]'
+                        }
+                    }
+                ]
             }
         ]
-    },
-    postcss: function () {
-        return [autoprefixer, precss];
     }
 };

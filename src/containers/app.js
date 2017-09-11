@@ -1,29 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import * as mainActions from '../actions/mainAction';
+import * as mainActions from '../actions/mainAction';
+import * as categoryActions from '../actions/categoryAction';
 import Button from '../components/button/index';
-import Prova from '../components/prova/index';
-import ContactForm from "../components/form/index";
+import Category from './cat';
+import Main from './main';
 
 class App extends Component {
-    submit = (values) => {
-        // print the form values to the console
-        console.log(values)
-    };
     render(){
-        const { main } = this.props;
-        // const {    } = this.props.mainActions;
+        const { main, cat } = this.props;
+        const {  addItemRequest, cancelItemRequest, addItemSuccess  } = this.props.mainActions;
+        const { addCatRequest, cancelCatRequest, addCatSuccess } = this.props.categoryActions;
         return(
             <div>
-                <Button>
-                    Add money move!
-                </Button>
-                <Button>
-                    Add category
-                </Button>
-                <Prova/>
-                <ContactForm onSubmit={this.submit} />
+                <Main
+                    newItem={main.addNewItem}
+                    addItemRequest={addItemRequest}
+                    cancelItemRequest={cancelItemRequest}
+                    addItemSuccess={addItemSuccess}
+                    itemArr={main.mainArr}
+                    categories={cat.categoryArr}
+                />
+                <Category
+                    newItem={cat.addNew}
+                    addItemRequest={addCatRequest}
+                    cancelItemRequest={cancelCatRequest}
+                    addItemSuccess={addCatSuccess}
+                    categories={cat.categoryArr}
+                />
             </div>
 
         )
@@ -32,16 +37,16 @@ class App extends Component {
 
 function mapStateToProps (state) {
     return {
-        main: state.main
+        main: state.main,
+        cat: state.cat
     }
 }
 
-// function mapDispatchToProps(dispatch){
-//     return {
-//         mainActions: bindActionCreators(mainActions, dispatch)
-//     }
-// }
+function mapDispatchToProps(dispatch){
+    return {
+        mainActions: bindActionCreators(mainActions, dispatch),
+        categoryActions: bindActionCreators(categoryActions, dispatch)
+    }
+}
 
-export default connect(mapStateToProps
-    // , mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

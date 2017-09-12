@@ -24,7 +24,7 @@ class ItemForm  extends Component{
                 </div>
                 <div>
                     <label htmlFor="money">Money</label>
-                    <Field name="money" component="input" type="number" />
+                    <Field name="money" component="input" type="number" parse={value => Number(value)}/>
                 </div>
                 <div>
                     <label htmlFor="moneyType">Money Type</label>

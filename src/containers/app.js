@@ -6,6 +6,7 @@ import * as categoryActions from '../actions/categoryAction';
 import Button from '../components/button/index';
 import Category from './cat';
 import Main from './main';
+import Chart from "../components/chart/index";
 
 class App extends Component {
     render(){
@@ -28,6 +29,9 @@ class App extends Component {
                     cancelItemRequest={cancelCatRequest}
                     addItemSuccess={addCatSuccess}
                     categories={cat.categoryArr}
+                />
+                <Chart
+                    itemArr={main.mainArr}
                 />
             </div>
 
